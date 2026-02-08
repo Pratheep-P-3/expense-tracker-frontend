@@ -1,0 +1,78 @@
+<div class="form-container">
+  <div class="form-card">
+    <h2>{{ isEditMode ? 'Edit Expense' : 'Add New Expense' }}</h2>
+
+    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="amount">Amount (₹)</label>
+        <input type="number" id="amount" formControlName="amount" class="form-control"
+          [class.is-invalid]="submitted && f['amount'].errors" placeholder="0.00" step="0.01" min="0" />
+        <div *ngIf="submitted && f['amount'].errors" class="invalid-feedback">
+          <div *ngIf="f['amount'].errors['required']">Amount is required</div>
+          <div *ngIf="f['amount'].errors['min']">Amount must be greater than 0</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="expenseDate">Date</label>
+        <input type="date" id="expenseDate" formControlName="expenseDate" class="form-control"
+          [class.is-invalid]="submitted && f['expenseDate'].errors" [max]="maxDate" />
+        <div *ngIf="submitted && f['expenseDate'].errors" class="invalid-feedback">
+          <div *ngIf="f['expenseDate'].errors['required']">Date is required</div>
+          <div *ngIf="f['expenseDate'].errors['futureDate']">Date cannot be in the future</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" class="form-control"
+          [class.is-invalid]="submitted && f['description'].errors" placeholder="Enter expense description"
+          rows="3"></textarea>
+        <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+          <div *ngIf="f['description'].errors['required']">Description is required</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="expenseType">Type</label>
+        <select id="expenseType" formControlName="expenseType" class="form-control"
+          [class.is-invalid]="submitted && f['expenseType'].errors">
+          <option [value]="ExpenseType.PERSONAL">Personal</option>
+          <option [value]="ExpenseType.ORGANIZATIONAL">Organizational</option>
+        </select>
+        <div *ngIf="submitted && f['expenseType'].errors" class="invalid-feedback">
+          <div *ngIf="f['expenseType'].errors['required']">Type is required</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="categoryId">Category</label>
+        <select id="categoryId" formControlName="categoryId" class="form-control"
+          [class.is-invalid]="submitted && f['categoryId'].errors">
+          <option value="">Select a category</option>
+          <option *ngFor="let category of categories" [value]="category.categoryId">
+            {{ category.name }}
+          </option>
+        </select>
+        <div *ngIf="submitted && f['categoryId'].errors" class="invalid-feedback">
+          <div *ngIf="f['categoryId'].errors['required']">Category is required</div>
+        </div>
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="loading">
+          <span *ngIf="loading" class="spinner"></span>
+          <span *ngIf="!loading">{{ isEditMode ? 'Update' : 'Create' }}</span>
+          <span *ngIf="loading">{{ isEditMode ? 'Updating...' : 'Creating...' }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
