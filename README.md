@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Expense Tracker - Angular Frontend
 
 A modern, responsive Angular frontend for the Expense Tracker application, fully integrated with the Spring Boot backend.
@@ -355,3 +356,6 @@ This project is part of the Expense Tracker application suite.
 ---
 
 **Ready to track your expenses!** 🚀💰
+=======
+# expense-tracker-frontend
+>>>>>>> 31ef5eff6481cbf426867d5195ec45b082a17d72
